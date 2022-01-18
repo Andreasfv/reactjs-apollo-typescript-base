@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { ApolloConsumer, gql, useQuery } from "@apollo/client";
+import Button from "./components/button/customButton";
 
 const CATEGORIES = gql`
     {
@@ -50,6 +51,10 @@ function App() {
                     Edit <code>src/App.tsx</code> and save to reload.
                 </p>
                 <input ref={inputRef} />
+                <Button className="mordi" primary>
+                    PRIMARY
+                </Button>
+                <Button className="mordi">Eat Spicy Jokbal</Button>
                 <FetchCategories />
                 <a
                     className="App-link"

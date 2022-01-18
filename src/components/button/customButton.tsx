@@ -1,12 +1,23 @@
-import React, { useRef } from "react";
+import { printIntrospectionSchema } from "graphql";
+import React, { useRef, useState } from "react";
+import styled from "styled-components";
 
-interface customButtonProps {}
+interface customButtonProps {
+    primary?: boolean;
+    children: string;
+    className: string;
+}
 
-export const customButton: React.FC<customButtonProps> = ({}) => {
-    const inpRef = useRef<HTMLInputElement>(null);
-    return (
-        <div>
-            <input ref={inpRef} />
-        </div>
-    );
-};
+const Button = styled.button<customButtonProps>`
+    /* Adapt the colors based on primary prop */
+    background: ${(props) => (props.primary ? "palevioletred" : "white")};
+    color: ${(props) => (props.primary ? "white" : "palevioletred")};
+
+    font-size: 1em;
+    margin: 1em;
+    padding: 0.25em 1em;
+    border: 2px solid palevioletred;
+    border-radius: 3px;
+`;
+
+export default Button;
