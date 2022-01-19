@@ -2,13 +2,13 @@ import { printIntrospectionSchema } from "graphql";
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
-interface customButtonProps {
+interface ButtonProps {
     primary?: boolean;
-    children: string;
     className: string;
+    children: string;
 }
 
-const Button = styled.button<customButtonProps>`
+const BtnElement = styled.button<ButtonProps>`
     /* Adapt the colors based on primary prop */
     background: ${(props) => (props.primary ? "palevioletred" : "white")};
     color: ${(props) => (props.primary ? "white" : "palevioletred")};
@@ -19,5 +19,9 @@ const Button = styled.button<customButtonProps>`
     border: 2px solid palevioletred;
     border-radius: 3px;
 `;
+
+const Button: React.FC<ButtonProps> = ({ className, children }) => {
+    return <BtnElement className={className}>{children}</BtnElement>;
+};
 
 export default Button;

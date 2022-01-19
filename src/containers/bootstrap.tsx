@@ -1,21 +1,46 @@
 import React from "react";
 import styled from "styled-components";
-import PageEdge from "./SideBar";
-import AuthRouter from "./AuthRouter";
+import SideBar from "./SideBar";
 import { Outlet } from "react-router-dom";
+import useMedia from "../util/hooks/media";
+import Header from "../modules/header/header";
 
 // Query? after login I think, idk. this page should contain the setup after loging inn.
 //
-
-const Main = styled.div`
+interface MainProps {
+    mobile: boolean;
+}
+const Main = styled.div<MainProps>`
     display: flex;
     background-color: lightblue;
+    ${(props) =>
+        props.mobile
+            ? `
+
+            `
+            : `
+            grid-area: main;
+    `}
 `;
 
-const LayoutGrid = styled.div`
+interface LayoutGridProps {
+    mobile: boolean;
+}
+const LayoutGrid = styled.div<LayoutGridProps>`
     display: grid;
-    grid-template-columns: 1fr 5fr;
-    grid-column-gap: 4px;
+    ${(props) =>
+        props.mobile
+            ? `
+                grid-template-areas:
+                    'header'
+                    'main';`
+            : `
+        grid-template-columns: 1fr 5fr;
+        grid-column-gap: 4px;
+        grid-template-areas:
+            'header  header'
+            'sidebar main';
+    `}
     background: lightgray;
     height: 100%;
 `;
@@ -23,10 +48,12 @@ const LayoutGrid = styled.div`
 interface BootstrapProps {}
 
 const Bootstrap: React.FC<BootstrapProps> = () => {
+    const [mobile, desktop] = useMedia();
     return (
-        <LayoutGrid>
-            <PageEdge />
-            <Main>
+        <LayoutGrid mobile={mobile}>
+            <Header mobile={mobile} />
+            <SideBar mobile={mobile} />
+            <Main mobile={mobile}>
                 <Outlet />
             </Main>
         </LayoutGrid>

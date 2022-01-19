@@ -10,12 +10,17 @@ import {
 } from "react-router-dom";
 import AllShifts from "../modules/allshifts";
 
-interface Props {}
+interface Props {
+    mobile: boolean;
+}
 
 // Query? after login I think, idk. this page should contain the setup after loging inn.
 //
-
-const MainLayout = styled.div`
+interface MainLayoutProps {
+    mobile: boolean;
+}
+const MainLayout = styled.div<MainLayoutProps>`
+    ${(props) => (props.mobile ? `` : ``)}
     display: grid;
     grid-template-columns: 1fr 4fr 1fr;
     grid-column-gap: 1em;
