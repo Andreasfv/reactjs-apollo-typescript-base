@@ -1,12 +1,10 @@
-import ShiftTemplate from "./ShiftTemplate";
+import ShiftType from "./ShiftType";
 import User from "./User";
 
-interface Shift {
+export default interface Shift {
     id?: number;
     name: string;
     date: Date;
     users: [User];
-    shiftType: ShiftTemplate;
+    shiftType: ShiftType;
 }
-
-export default Shift;

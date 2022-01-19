@@ -2,7 +2,10 @@ import { useQuery } from "@apollo/client";
 import React from "react";
 import { GET_ALL_SHIFTS, ShiftData } from "../util/queries/shifts";
 import ShiftPresentation from "../components/ShiftPresentation";
+import styled from "styled-components";
 interface Props {}
+
+const ShiftContainer = styled.div``;
 
 const AllShifts: React.FC<Props> = () => {
     const { loading, error, data } = useQuery<ShiftData>(GET_ALL_SHIFTS);
@@ -12,11 +15,11 @@ const AllShifts: React.FC<Props> = () => {
     if (data) {
         if (data.allShifts && data.allShifts.length >= 1) {
             return (
-                <div>
+                <ShiftContainer>
                     {data.allShifts.map((shift) => (
-                        <ShiftPresentation shift={shift} />
+                        <ShiftPresentation key={shift.id} shift={shift} />
                     ))}
-                </div>
+                </ShiftContainer>
             );
         }
 

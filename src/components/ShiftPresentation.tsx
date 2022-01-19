@@ -6,7 +6,7 @@ interface Props {
     shift: Shift;
 }
 
-const ShiftWrapper = styled.div`
+const ShiftContainer = styled.div`
     display: block;
     margin: 1em;
     border: 1px solid black;
@@ -14,10 +14,11 @@ const ShiftWrapper = styled.div`
     padding: 1em;
 `;
 
-const TextDivs = styled.div`
+const TextDiv = styled.div`
     font-family: "Trebuchet MS", sans-serif;
     font-size: 14px;
 `;
+
 const ShiftPresentation: React.FC<Props> = ({ shift }) => {
     const name = (user: User) => {
         const name =
@@ -26,22 +27,26 @@ const ShiftPresentation: React.FC<Props> = ({ shift }) => {
                 : user.username;
         return name;
     };
-
+    console.log(shift.id);
     return (
-        <ShiftWrapper>
-            <TextDivs>
+        <ShiftContainer key={shift.id}>
+            <TextDiv>
                 {shift.name} - {shift.shiftType.name} - {shift.date}
-            </TextDivs>
+            </TextDiv>
             <div></div>
-            <TextDivs>{`Skiftet varer fra ${shift.shiftType.start} til ${shift.shiftType.end}.`}</TextDivs>
-            <TextDivs>De som jobber: </TextDivs>
+            <TextDiv>{`Skiftet varer fra ${shift.shiftType.start} til ${shift.shiftType.end}.`}</TextDiv>
+            <TextDiv>De som jobber: </TextDiv>
             <hr></hr>
-            {shift.users.length >= 1 ? (
-                shift.users.map((user) => <TextDivs>{name(user)}</TextDivs>)
-            ) : (
-                <div>No Assigned users </div>
-            )}
-        </ShiftWrapper>
+            <ul>
+                {shift.users.length >= 1 ? (
+                    shift.users.map((user) => (
+                        <li key={user.id}>{name(user)}</li>
+                    ))
+                ) : (
+                    <div>No Assigned users </div>
+                )}
+            </ul>
+        </ShiftContainer>
     );
 };
 

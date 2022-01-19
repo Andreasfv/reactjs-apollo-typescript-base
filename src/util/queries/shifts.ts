@@ -25,7 +25,7 @@ export const GET_ALL_SHIFTS = gql`
 `;
 
 export interface ShiftData {
-    allShifts: Shift[];
+    allShifts: [Shift];
 }
 
 const shiftGql = {
