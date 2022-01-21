@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import FrontPage from "../modules/frontpage";
 import Bootstrap from "./bootstrap";
@@ -9,6 +9,10 @@ import {
     //Redirect,
 } from "react-router-dom";
 import AllShifts from "../modules/allshifts";
+import { useMutation } from "@apollo/client";
+import { VERIFY_USER } from "../util/queries/user";
+import User from "../types/User";
+import AuthContext from "../context/AuthContext";
 
 interface Props {
     mobile: boolean;
@@ -52,21 +56,37 @@ const HeaderWrapper = styled.header<HeaderWrapperProps>`
 `;
 
 interface RouterProps {}
-const AuthRouter: React.FC<RouterProps> = () => {
-    console.log("ROUTER WAS LOADED");
+const AuthRouter: React.FC<RouterProps> = (props) => {
+    const [getCookdUser, { loading, error, data }] = useMutation(VERIFY_USER);
+    const [auth, setAuth] = useState<User | null>(null);
+    console.log("authRouter", props);
+    useEffect(() => {
+        //getCookdUser({variables: {token: }})
+        console.log(auth);
+    }, [auth]);
     return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<Bootstrap />}>
-                    <Route path="/frontpage" element={<FrontPage />} />
-                    <Route
-                        path="/mordi"
-                        element={<div>MORDI fortjener en blomst {"<3"}</div>}
-                    />
-                    <Route path="/shifts" element={<AllShifts />} />
-                </Route>
-            </Routes>
-        </Router>
+        <AuthContext.Provider
+            value={{
+                user: auth,
+                setUser: setAuth,
+            }}
+        >
+            <Router>
+                <Routes>
+                    <>{auth ? auth?.username : ""}</>
+                    <Route path="/" element={<Bootstrap />}>
+                        <Route path="/frontpage" element={<FrontPage />} />
+                        <Route
+                            path="/mordi"
+                            element={
+                                <div>MORDI fortjener en blomst {"<3"}</div>
+                            }
+                        />
+                        <Route path="/shifts" element={<AllShifts />} />
+                    </Route>
+                </Routes>
+            </Router>
+        </AuthContext.Provider>
     );
 };
 
