@@ -4,8 +4,9 @@ import styled from "styled-components";
 
 interface ButtonProps {
     primary?: boolean;
-    className: string;
+    className?: string;
     children: string;
+    onClick?: () => void;
 }
 
 const BtnElement = styled.button<ButtonProps>`
@@ -20,8 +21,19 @@ const BtnElement = styled.button<ButtonProps>`
     border-radius: 3px;
 `;
 
-const Button: React.FC<ButtonProps> = ({ className, children }) => {
-    return <BtnElement className={className}>{children}</BtnElement>;
+const Button: React.FC<ButtonProps> = ({ className, children, onClick }) => {
+    return (
+        <BtnElement onClick={onClick} className={className}>
+            {children}
+        </BtnElement>
+    );
+};
+
+Button.defaultProps = {
+    onClick: () => {},
+    primary: false,
+    children: "",
+    className: "",
 };
 
 export default Button;
