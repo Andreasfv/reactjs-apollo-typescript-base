@@ -34,9 +34,27 @@ export const VERIFY_USER = gql`
     }
 `;
 
+export const ALL_USERS = gql`
+    query AllUsers {
+        allUsers {
+            edges {
+                node {
+                    id
+                    username
+                    firstName
+                    lastName
+                    email
+                    groups
+                }
+            }
+        }
+    }
+`;
+
 const userGql = {
     LOGIN_USER,
     VERIFY_USER,
+    ALL_USERS,
 };
 
 export default userGql;
