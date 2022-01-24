@@ -1,11 +1,11 @@
 import Shift from "./Shift";
 
 interface User {
-    id?: number;
+    id?: number | string;
     username: string;
     firstName: string;
     lastName: string;
-    enmail: string;
+    email: string;
     shifts: [Shift];
 }
 

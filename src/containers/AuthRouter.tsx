@@ -57,18 +57,22 @@ const HeaderWrapper = styled.header<HeaderWrapperProps>`
 
 interface RouterProps {}
 const AuthRouter: React.FC<RouterProps> = (props) => {
+    //Unsure, but this functionality should probably be moved to its own authContext file.
     const [getCookdUser, { loading, error, data }] = useMutation(VERIFY_USER);
     const [auth, setAuth] = useState<User | null>(null);
-    console.log("authRouter", props);
+    const [token, setToken] = useState<string | null>(null);
+    //-----------------------------------------------------
+    // TODO Get user from Cookies/somewhere, think I'll just use something jank till I know best practice.
     useEffect(() => {
         //getCookdUser({variables: {token: }})
-        console.log(auth);
     }, [auth]);
     return (
         <AuthContext.Provider
             value={{
                 user: auth,
                 setUser: setAuth,
+                token: token,
+                setToken: setToken,
             }}
         >
             <Router>

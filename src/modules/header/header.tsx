@@ -10,7 +10,7 @@ import AuthContext from "../../context/AuthContext";
 import { useContext } from "react";
 const HeaderWrapper = styled.header`
     grid-area: header;
-    background-color: red;
+    background-color: violet;
 `;
 interface Props {
     mobile: boolean;
@@ -37,15 +37,21 @@ const Header: React.FC<Props> = () => {
     const handleLogin = () => {
         loginUser({
             variables: { username: usernameValue, password: passwordValue },
-        }).then((result) => {
-            console.log(data, "whatever this -> is ", result);
-            if (data && data.data.login.ok) {
-                auth?.setUser(data.data.login.user);
-            }
         });
+        // .then((result) => {
+        //     console.log(data, "whatever this -> is ", result);
+        //     if (data && data.login.ok) {
+        //         auth?.setUser(data.login.user);
+        //     }
+        // });
     };
-
-    useEffect(() => {}, [data, error, loading]);
+    useEffect(() => {
+        if (data && data.login.ok && auth) {
+            auth.setUser(data.login.user);
+            auth.setToken(data.login.token);
+            console.log(data?.login.user?.firstName);
+        }
+    }, [data, error, loading]);
 
     return (
         <HeaderWrapper>
@@ -56,9 +62,13 @@ const Header: React.FC<Props> = () => {
             <Button primary className="loginBTN" onClick={handleLogin}>
                 Rogin
             </Button>
-            {loading ? <>LOOAAADING</> : null}
-            {error ? <p>{error.message}</p> : null}
-            {data ? <p>GOTTEM</p> : null}
+            <div>
+                {loading ? <>LOOAAADING</> : null}
+                {error ? <p>{error.message}</p> : null}
+                {auth ? (
+                    <p>{`${auth.user?.username} - ${auth.token}`}</p>
+                ) : null}
+            </div>
         </HeaderWrapper>
     );
 };
