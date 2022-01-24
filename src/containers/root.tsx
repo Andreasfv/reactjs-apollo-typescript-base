@@ -1,4 +1,6 @@
 import React from "react";
+import { ThemeProvider } from "styled-components";
+import theme from "../themes/light.theme";
 import {
     ApolloClient,
     InMemoryCache,
@@ -12,7 +14,9 @@ import AuthRouter from "./AuthRouter";
 export default function Root() {
     return (
         <ApolloProvider client={client}>
-            <AuthRouter />
+            <ThemeProvider theme={theme}>
+                <AuthRouter />
+            </ThemeProvider>
         </ApolloProvider>
     );
 }
