@@ -8,9 +8,12 @@ import Button from "../../components/button/customButton";
 import { LOGIN_USER, LoginData } from "../../util/queries/user";
 import AuthContext from "../../context/AuthContext";
 import { useContext } from "react";
+
 const HeaderWrapper = styled.header`
     grid-area: header;
     background-color: violet;
+    height: 70px;
+    display: flex;
 `;
 interface Props {
     mobile: boolean;
@@ -34,9 +37,16 @@ const Header: React.FC<Props> = () => {
     ) => {
         setPasswordValue(event.target.value);
     };
+
+    // TODO LOGIN SHOULD NOT BE HERE, this was dumb
     const handleLogin = () => {
+        console.log("I AM RUN aka handleLogin");
         loginUser({
             variables: { username: usernameValue, password: passwordValue },
+        }).then((x) => {
+            console.log(x);
+            if (x.data?.login.token)
+                localStorage.setItem("token", x.data?.login.token);
         });
         // .then((result) => {
         //     console.log(data, "whatever this -> is ", result);
@@ -45,28 +55,42 @@ const Header: React.FC<Props> = () => {
         //     }
         // });
     };
+
+    const handleLogout = () => {
+        auth?.setUser(null);
+        auth?.setToken(null);
+        localStorage.removeItem("token");
+    };
+
     useEffect(() => {
         if (data && data.login.ok && auth) {
             auth.setUser(data.login.user);
             auth.setToken(data.login.token);
-            console.log(data?.login.user?.firstName);
         }
     }, [data, error, loading]);
 
     return (
         <HeaderWrapper>
-            username
-            <input onChange={handleUsername} value={usernameValue} />
-            passwørd
-            <input onChange={handlePassword} value={passwordValue} />
-            <Button primary className="loginBTN" onClick={handleLogin}>
-                Rogin
-            </Button>
+            {auth && auth.user != null ? (
+                <div>
+                    Vælkømn {auth.user?.firstName}
+                    <Button
+                        primary
+                        className="logoutBTN"
+                        onClick={handleLogout}
+                    >
+                        Logout
+                    </Button>
+                </div>
+            ) : (
+                <p>Public Header</p>
+            )}
+
             <div>
                 {loading ? <>LOOAAADING</> : null}
                 {error ? <p>{error.message}</p> : null}
-                {auth ? (
-                    <p>{`${auth.user?.username} - ${auth.token}`}</p>
+                {auth && auth.user != null ? (
+                    <p>{`Username: ${auth.user?.username} - Name: ${auth.user.name}`}</p>
                 ) : null}
             </div>
         </HeaderWrapper>

@@ -38,6 +38,7 @@ const LayoutGrid = styled.div<LayoutGridProps>`
                     'main';`
             : `
         grid-template-columns: 1fr 5fr;
+        grid-template-rows: 70px auto;
         grid-column-gap: 4px;
         grid-template-areas:
             'header  header'
@@ -52,7 +53,6 @@ interface BootstrapProps {}
 const Bootstrap: React.FC<BootstrapProps> = (props, context) => {
     const [mobile, desktop] = useMedia();
     const auth = useContext(AuthContext);
-    console.log("authContext?", auth);
     return (
         <LayoutGrid mobile={mobile}>
             <Header mobile={mobile} />
