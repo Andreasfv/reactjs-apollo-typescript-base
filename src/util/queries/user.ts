@@ -23,11 +23,46 @@ export const LOGIN_USER = gql`
     }
 `;
 
+//TODO LOGIN USER WITH TOKEN
+export interface GetUserWithToken {
+    errors: Error | null;
+    verifyUser: {
+        ok: boolean;
+        loginToken: string;
+        user: User;
+    };
+}
+export const GET_USER_WITH_TOKEN = gql`
+    mutation VerifyUser($token: String!) {
+        verifyUser(token: $token) {
+            ok
+            loginToken
+            user {
+                id
+                username
+                name
+                email
+                groups
+                firstName
+                lastName
+            }
+        }
+    }
+`;
+
+export interface VerifyUser {
+    errors: Error | null;
+    verifyUser: {
+        loginToken: string;
+        ok: boolean;
+    };
+}
+
 export const VERIFY_USER = gql`
     mutation VerifyUser($token: String!) {
         verifyUser(token: $token) {
             ok
-            token
+            loginToken
         }
     }
 `;
