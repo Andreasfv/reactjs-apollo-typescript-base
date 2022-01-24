@@ -1,12 +1,10 @@
 import { gql } from "@apollo/client";
 import User from "../../types/User";
 export interface LoginData {
-    data: {
-        login: {
-            ok: boolean;
-            user: User | null;
-            token: string | null;
-        };
+    login: {
+        ok: boolean;
+        user: User | null;
+        token: string | null;
     };
 }
 export const LOGIN_USER = gql`
