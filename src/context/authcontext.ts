@@ -1,12 +1,4 @@
-import React, {
-    ChildContextProvider,
-    createContext,
-    Dispatch,
-    Provider,
-    SetStateAction,
-    useEffect,
-    useState,
-} from "react";
+import React, { createContext, Dispatch, SetStateAction } from "react";
 import User from "../types/User";
 
 export interface AuthContextType {

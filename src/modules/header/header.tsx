@@ -6,7 +6,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import Button from "../../components/button/customButton";
 import { LOGIN_USER, LoginData } from "../../util/queries/user";
-import AuthContext from "../../context/AuthContext";
+import AuthContext from "../../context/authcontext";
 import { useContext } from "react";
 
 const HeaderWrapper = styled.header`
