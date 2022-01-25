@@ -25,8 +25,24 @@ const SideBarWrapper = styled.div<Props>`
 const SideBar: React.FC<Props> = (props) => {
     return (
         <SideBarWrapper mobile={props.mobile}>
-            <Button className="sidebarbtn1">Dickings</Button>
-            <Button className="sidebarbtn1">Dickings2</Button>
+            <Button
+                className="sidebarbtn1"
+                onClick={function (event): void {
+                    throw new Error("Function not implemented.");
+                }}
+                error={false}
+            >
+                Dickings
+            </Button>
+            <Button
+                className="sidebarbtn1"
+                onClick={function (event): void {
+                    throw new Error("Function not implemented.");
+                }}
+                error={false}
+            >
+                Dickings2
+            </Button>
         </SideBarWrapper>
     );
 };

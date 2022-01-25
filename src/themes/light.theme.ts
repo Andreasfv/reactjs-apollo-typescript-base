@@ -1,8 +1,9 @@
 const theme = {
     error: "red",
     success: "darkgreen",
-    primary: "#00706D",
-    secondary: "#27ae60",
+    primary: "#E27D60",
+    secondary: "#85DCB",
+    background: "#71D2AA",
     accent: "#005594",
     highlight: "#2881b8",
     placeholder: "#9d9ca6",
@@ -15,6 +16,7 @@ const theme = {
     },
     fontColor: {
         standard: "black",
+        secondary: "white",
         error: "red",
         success: "darkgreen",
     },

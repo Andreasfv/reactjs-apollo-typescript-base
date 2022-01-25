@@ -23,6 +23,7 @@ interface StyledInputProps {
     error: boolean;
     password?: boolean;
     onChange: React.ChangeEventHandler<HTMLInputElement>;
+    onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
     type?: string;
 }
 
@@ -60,6 +61,7 @@ const Input = React.forwardRef<HTMLInputElement, StyledInputProps>(
             font,
             error,
             onChange,
+            onKeyDown,
             ...props
         },
         ref
@@ -84,6 +86,7 @@ const Input = React.forwardRef<HTMLInputElement, StyledInputProps>(
                     fontSize={fontSize}
                     font={font}
                     onChange={onChange}
+                    onKeyDown={onKeyDown}
                     type={type}
                     {...props}
                 />
