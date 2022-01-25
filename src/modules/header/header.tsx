@@ -8,10 +8,11 @@ import Button from "../../components/button/customButton";
 import { LOGIN_USER, LoginData } from "../../util/queries/user";
 import AuthContext from "../../context/authcontext";
 import { useContext } from "react";
+import theme from "../../themes/light.theme";
 
 const HeaderWrapper = styled.header`
     grid-area: header;
-    background-color: violet;
+    background-color: ${theme.accent};
     height: 70px;
     display: flex;
 `;

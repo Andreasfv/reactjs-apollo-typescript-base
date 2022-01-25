@@ -4,7 +4,7 @@ const theme = {
     primary: "#E27D60",
     secondary: "#85DCB",
     background: "#71D2AA",
-    accent: "#005594",
+    accent: "#41B3A3",
     highlight: "#2881b8",
     placeholder: "#9d9ca6",
     fontSize: {
