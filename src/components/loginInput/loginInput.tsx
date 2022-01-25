@@ -1,60 +1,95 @@
+import { printIntrospectionSchema } from "graphql";
 import React, { ForwardRefRenderFunction } from "react";
 import styled from "styled-components";
+import theme from "../../themes/light.theme";
 import useMedia from "../../util/hooks/media";
-import LoginInputProps from "./types";
-
-interface Wrapper {
-    width: string;
-    height: string;
-    label: string | null;
-    mobile: boolean;
-}
-
-// const Wrapper = styled.span<Wrapper>`
-//     display: flex;
-//     position: relative;
-//     width: ${(props) => props.width};
-//     height: ${(props) => props.height};
-
-//     ${(props) =>
-//         props.label &&
-//         `
-//     &::before {
-//         content: '${props.label}';
-//         position: absolute;
-//         left: 4px;
-//         top: 0;
-//         transform: translateY(-100%);
-
-//         color: paleviolet;
-//     }
-
-//     margin-top: 10em;
-//     `}
-// `;
 
 interface StyledInputProps {
-    styledFocus: boolean;
-    styledFocusColor: boolean;
-    errorBox: boolean;
-    borderRadius: string;
-    noMargin: boolean;
+    border?: string;
+    borderColor?: string;
+    styledFocus?: boolean;
+    styledFocusColor?: string;
+    errorBox?: boolean;
+    borderRadius?: string;
+    noMargin?: boolean;
+    margin?: string;
+    padding?: string;
     removeMargin?: boolean;
     width?: string;
+    height?: string;
     disabled?: boolean;
-    error?: boolean;
+    font?: string;
+    fontSize?: string;
+    error: boolean;
+    password?: boolean;
+    onChange: React.ChangeEventHandler<HTMLInputElement>;
+    type?: string;
 }
 
 const StyledInput = styled.input<StyledInputProps>`
-    box-sizing: border-box;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    padding: 0 10px;
-
-    border: none;
-    border-radius: 4px;
-    outline: none;
-
     ${(props) => (props.error != null ? `` : ``)}
+    border: solid black ${(props) => props.border};
+    border-radius: ${(props) => props.borderRadius};
+    width: calc(
+        ${(props) => (props.width ? props.width : theme.inputSize.width)} -
+            ${(props) => props.border} - ${(props) => props.border}
+    );
+    margin: ${(props) => (props.noMargin ? "0px" : props.margin)};
+    height: ${(props) => props.height};
+    font-family: ${(props) => (props.font ? props.font : theme.font.standard)};
+    font-size: ${(props) =>
+        props.fontSize ? props.fontSize : theme.fontSize.input};
+    font-color: ${(props) =>
+        props.error ? theme.fontColor.error : theme.fontColor.standard};
 `;
+
+const Input = React.forwardRef<HTMLInputElement, StyledInputProps>(
+    (
+        {
+            styledFocus = false,
+            styledFocusColor = "primary",
+            errorBox = false,
+            borderRadius = "0px",
+            noMargin = false,
+            removeMargin = false,
+            height = "36px",
+            width,
+            margin = "2px auto",
+            fontSize = "18px",
+            password = false,
+            font,
+            error,
+            onChange,
+            ...props
+        },
+        ref
+    ) => {
+        const type = password ? "password" : "default";
+        return (
+            <div>
+                <StyledInput
+                    ref={ref}
+                    error={error}
+                    errorBox={errorBox}
+                    styledFocus={styledFocus}
+                    styledFocusColor={styledFocusColor}
+                    noMargin={noMargin}
+                    margin={margin}
+                    border="1px"
+                    borderColor="gray7"
+                    height={height}
+                    borderRadius={borderRadius}
+                    removeMargin={removeMargin}
+                    width={width}
+                    fontSize={fontSize}
+                    font={font}
+                    onChange={onChange}
+                    type={type}
+                    {...props}
+                />
+            </div>
+        );
+    }
+);
+
+export default Input;

@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 import useMedia from "../util/hooks/media";
 import Header from "../modules/header/header";
 import { useContext } from "react";
-import AuthContext from "../context/AuthContext";
+import AuthContext from "../context/authcontext";
 
 // Query? after login I think, idk. this page should contain the setup after loging inn.
 //

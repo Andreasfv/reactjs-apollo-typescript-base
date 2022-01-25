@@ -18,8 +18,7 @@ import {
     VERIFY_USER,
 } from "../util/queries/user";
 import User from "../types/User";
-import AuthContext from "../context/AuthContext";
-
+import AuthContext from "../context/authcontext";
 interface Props {
     mobile: boolean;
 }
