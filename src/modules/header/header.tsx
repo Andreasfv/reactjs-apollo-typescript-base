@@ -20,8 +20,28 @@ const HeaderWrapper = styled.header<HeaderWrapperProps>`
     display: flex;
     border-bottom: 1px solid black;
     max-height: 70px;
-    justify-content: center;
     z-index: 9999;
+
+    button {
+        background-color: ${(props) => props.theme.accent};
+        position: relative;
+        border: none;
+        align-self: center;
+        margin-left: auto;
+        margin-right: 6px;
+        height: 100%;
+        padding: 4px;
+    }
+
+    button::before {
+        content: "";
+        left: -6px;
+        height: 70%;
+        top: 15%;
+        background: gray;
+        width: 1px;
+        position: absolute;
+    }
 `;
 
 const LogoutButton = styled(Button)``;
@@ -40,27 +60,16 @@ const Header: React.FC<Props> = () => {
     useEffect(() => {}, [auth]);
 
     return (
-        <HeaderWrapper auth={auth}>
-            <div>
+        <HeaderWrapper className="header" auth={auth}>
+            <div className="Logo">
                 {auth && auth.user != null ? (
                     <p>{`Username: ${auth.user?.username} - Name: ${auth.user.name}`}</p>
                 ) : null}
             </div>
             {auth && auth.user != null ? (
-                <LogoutButton
-                    primary
-                    className="logoutBTN"
-                    onClick={handleLogout}
-                    error={false}
-                    width={"150px"}
-                    margin="0.25em 0.25em 0.25em auto"
-                    borderRadius="5px"
-                    height="90%"
-                    justifySelf="flex-end"
-                    padding="0px"
-                >
+                <button className="logoutButton" onClick={handleLogout}>
                     Logout
-                </LogoutButton>
+                </button>
             ) : (
                 <p>Public Header</p>
             )}

@@ -35,7 +35,7 @@ const SideBar: React.FC<Props> = (props) => {
                 }}
                 error={false}
             >
-                Dickings
+                Something
             </Button>
             <Button
                 className="sidebarbtn1"
@@ -44,7 +44,7 @@ const SideBar: React.FC<Props> = (props) => {
                 }}
                 error={false}
             >
-                Dickings2
+                Exists
             </Button>
         </SideBarWrapper>
     );

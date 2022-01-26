@@ -7,6 +7,7 @@ const theme = {
     accent: "#595959",
     highlight: "#2881b8",
     placeholder: "#9d9ca6",
+    black: "black",
     fontSize: {
         standard: "14px",
         input: "18px",
