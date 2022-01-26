@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useMutation } from "@apollo/client";
-
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import Button from "../../components/button/customButton";
 import LoginInput from "../../components/loginInput/loginInput";
 import AuthContext from "../../context/authcontext";
 import theme from "../../themes/light.theme";
 import { LOGIN_USER, LoginData } from "../../util/queries/user";
+import ErrorBox from "./ErrorBox";
 
 interface LoginWrapper {
     ref: React.MutableRefObject<HTMLDivElement | null>;
@@ -23,8 +24,6 @@ const LoginWrapper = styled.div<LoginWrapper>`
 `;
 
 const LoginContainer = styled.div`
-    width: 700px;
-    height: 400px;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -37,10 +36,11 @@ interface LoginProps {}
 const Login: React.FC<LoginProps> = () => {
     const loginWindowRef = useRef<HTMLDivElement>(null);
     const auth = useContext(AuthContext);
-    const [loginUser, { loading, error, data }] =
-        useMutation<LoginData>(LOGIN_USER);
+    const [loginUser, { loading, data }] = useMutation<LoginData>(LOGIN_USER);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState();
+    const navigate = useNavigate();
 
     const handleUsername: React.ChangeEventHandler<HTMLInputElement> = (
         event
@@ -56,14 +56,23 @@ const Login: React.FC<LoginProps> = () => {
     };
 
     const handleLogin = () => {
-        console.log("I AM RUN aka handleLogin");
         loginUser({
             variables: { username: username, password: password },
-        }).then((x) => {
-            console.log(x);
-            if (x.data?.login.token)
-                localStorage.setItem("token", x.data?.login.token);
-        });
+        })
+            .then((x) => {
+                console.log(x);
+                if (x.data?.login.token) {
+                    localStorage.setItem("token", x.data?.login.token);
+                    setError(undefined);
+                    navigate("../frontpage", { replace: true });
+                } else {
+                    throw new Error("Invalid login");
+                }
+            })
+            .catch((err) => {
+                setError(err);
+                console.log("Catched error", err);
+            });
         // .then((result) => {
         //     console.log(data, "whatever this -> is ", result);
         //     if (data && data.login.ok) {
@@ -79,7 +88,7 @@ const Login: React.FC<LoginProps> = () => {
     const handleKeydown: React.KeyboardEventHandler<HTMLInputElement> = (
         event
     ) => {
-        if ((event.key = "Enter")) {
+        if (event.key == "Enter") {
             handleLogin();
         }
     };
@@ -92,6 +101,7 @@ const Login: React.FC<LoginProps> = () => {
         if (data && data.login.ok && auth) {
             auth.setUser(data.login.user);
             auth.setToken(data.login.token);
+            setError(undefined);
         }
     }, [data, error, loading]);
 
@@ -113,14 +123,13 @@ const Login: React.FC<LoginProps> = () => {
                     borderRadius="4px"
                     password={true}
                 />
-                <div>
-                    <Button onClick={handleLogin} error={false}>
-                        Login
-                    </Button>
-                    <Button onClick={handleSignUp} error={false}>
-                        Sign up!
-                    </Button>
-                </div>
+                <Button onClick={handleLogin} error={false}>
+                    Login
+                </Button>
+                <Button onClick={handleSignUp} error={false}>
+                    Sign up!
+                </Button>
+                <ErrorBox error={error} />
             </LoginContainer>
         </LoginWrapper>
     );

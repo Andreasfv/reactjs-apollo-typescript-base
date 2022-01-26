@@ -2,6 +2,7 @@ import { printIntrospectionSchema } from "graphql";
 import React from "react";
 import styled from "styled-components";
 import Button from "../components/button/customButton";
+import theme from "../themes/light.theme";
 
 interface Props {
     mobile: boolean;
@@ -14,11 +15,13 @@ const SideBarWrapper = styled.div<Props>`
                 display: none;
             `
             : `
+                display: flex;
+
                 grid-area: sidebar;
     `}
-    display: flex;
+    border-right: 1px solid black;
     flex-direction: column;
-    background-color: darkgray;
+    background-color: ${theme.accent};
     minheight: 100px;
 `;
 

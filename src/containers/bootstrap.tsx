@@ -15,6 +15,7 @@ interface MainProps {
 const Main = styled.div<MainProps>`
     display: flex;
     background-color: lightblue;
+    height: 100%;
     ${(props) =>
         props.mobile
             ? `
@@ -35,11 +36,14 @@ const LayoutGrid = styled.div<LayoutGridProps>`
             ? `
                 grid-template-areas:
                     'header'
-                    'main';`
+                    'main';
+                grid-template-rows: 70px 1fr;
+                    
+                `
             : `
         grid-template-columns: 1fr 5fr;
-        grid-template-rows: 70px auto;
-        grid-column-gap: 4px;
+        grid-template-rows: 70px 1fr;
+        grid-column-gap: 1px;
         grid-template-areas:
             'header  header'
             'sidebar main';

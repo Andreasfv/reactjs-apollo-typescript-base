@@ -2,8 +2,16 @@ import { printIntrospectionSchema } from "graphql";
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import theme from "../../themes/light.theme";
-
-const Wrapper = styled.div``;
+interface WrapperProps {
+    justifySelf?: string;
+    margin?: string;
+    removeMargin?: boolean;
+}
+const Wrapper = styled.div<WrapperProps>`
+    ${(props) =>
+        props.justifySelf ? "justify-self: " + props.justifySelf + ";" : ""}
+    ${(props) => (props.removeMargin ? null : "margin: " + props.margin + ";")}
+`;
 interface ButtonProps {
     primary?: boolean;
     className?: string;
@@ -14,6 +22,7 @@ interface ButtonProps {
     borderColor?: string;
     borderRadius?: string;
     margin?: string;
+    marginLeft?: string;
     padding?: string;
     removeMargin?: boolean;
     width?: string;
@@ -24,18 +33,19 @@ interface ButtonProps {
     fontSize?: string;
     error: boolean;
     type?: boolean;
+    justifySelf?: string;
 }
 
 const BtnElement = styled.button<ButtonProps>`
     /* Adapt the colors based on primary prop */
     background: ${(props) =>
-        props.backgroundColor ? props.backgroundColor : theme.primary};
-    ${(props) => (props.removeMargin ? null : "margin: " + props.margin + ";")}
-    padding: 0.25em 1em;
+        props.backgroundColor ? props.backgroundColor : theme.secondary};
+    padding: ${(props) => props.padding};
     border: ${(props) => (props.border ? props.border : "2px")} solid;
     border-color: ${(props) =>
         props.borderColor ? props.borderColor : theme.primary};
-    border-radius: 3px;
+    border-radius: ${(props) =>
+        props.borderRadius ? props.borderRadius : "0px"};
     font-size: ${(props) =>
         props.fontSize ? props.fontSize : theme.fontSize.standard};
     font-family: ${(props) => (props.font ? props.font : theme.font.standard)};
@@ -47,6 +57,8 @@ const BtnElement = styled.button<ButtonProps>`
             : theme.fontColor.secondary};
     height: ${(props) => props.height};
     width: ${(props) => props.width};
+    ${(props) =>
+        props.justifySelf ? "justify-self: " + props.justifySelf + ";" : null}
 
     &:focus {
         border-color: white;
@@ -62,6 +74,7 @@ const Button: React.FC<ButtonProps> = ({
     borderColor,
     borderRadius = "0px",
     backgroundColor,
+    padding = "0.25em 1em",
     margin = "4px auto",
     removeMargin = false,
     width = "300px",
@@ -70,9 +83,14 @@ const Button: React.FC<ButtonProps> = ({
     font,
     fontSize,
     fontColor,
+    justifySelf,
 }) => {
     return (
-        <Wrapper>
+        <Wrapper
+            justifySelf={justifySelf}
+            removeMargin={removeMargin}
+            margin={margin}
+        >
             <BtnElement
                 onClick={onClick}
                 className={className}
@@ -85,10 +103,12 @@ const Button: React.FC<ButtonProps> = ({
                 borderRadius={borderRadius}
                 backgroundColor={backgroundColor}
                 margin={margin}
+                padding={padding}
                 removeMargin={removeMargin}
                 font={font}
                 fontSize={fontSize}
                 fontColor={fontColor}
+                justifySelf={justifySelf}
             >
                 {children}
             </BtnElement>
